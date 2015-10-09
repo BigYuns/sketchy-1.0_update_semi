@@ -1,0 +1,61 @@
+
+<!doctype html>
+<html>
+  <head>
+  	<link href='http://fonts.googleapis.com/css?family=Yellowtail|Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'/>
+  	<style type='text/css'>
+
+	  	<title>Sketchy 1.0</title>
+	  	
+	  	body { font-family: "Open Sans", sans-serif; background-color: #222222; padding:2%;}
+	    h1, h2, h3, h4 { font-family: Yellowtail; font-weight: normal; color: #F2F218; }
+		#wrapper { width: 100%; margin: 0 auto; text-align:center; }
+	    header { text-align: center; }
+	    header h1 { font-size: 46px; text-align: center; margin: 15px 10px; }
+	    article h1 { font-size: 26px; margin: 0 0 15px; text-align: left;}
+	  	
+	  	article canvas {
+	    	width: 90%;
+	    	height: 700px;
+	    	border: 1px solid #ccc;
+	    	background-color: white; 
+	 
+    		margin-top: 0.5%;
+    		margin-bottom: 2%;
+    		margin-right: 3%;
+   			margin-left: 3%;
+	    }
+	    
+	    body { background: #222222;}
+  	</style>
+  </head>
+
+  <body>
+  	<center><h1>Draw something here!</h1></center><br>
+		<article class='example'>
+		  	<div class="tools">
+		  		<div class="buttons">
+		  			<center>
+			  		<a href="#simple_sketch" data-tool="eraser"><button type="button", class="btn btn-info">Eraser</button></a>
+			  		<a href='#simple_sketch' data-clear='true'><button id ="clear", type="button", class="btn btn-info">Clear</button></a>
+			  	</center>
+			  	   
+		  		</div>
+			</div>
+
+		 	<center>
+		 		<canvas id="simple_sketch" width='1700' height='700'></canvas>
+				<script type="text/javascript">
+		  			$(function() {
+		    		$('#simple_sketch').sketch();
+		  			});
+				</script>
+			</center>
+
+			<div>
+				<center><%=button_to "Submit", welcome_submit_path, :method => "get", class: "btn btn-small btn-success"%></center>
+				<br>
+			</div>
+		</article>
+  </body>
+</html>
