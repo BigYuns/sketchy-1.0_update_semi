@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
+  get 'submissions/save'
 
+  post '/submissions/save' => 'submissions/save'
 
   get 'welcome/homepage'
   get 'welcome/submit'
