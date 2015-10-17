@@ -4,7 +4,6 @@
   <head>
   	<link href='http://fonts.googleapis.com/css?family=Yellowtail|Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'/>
   	<style type='text/css'>
-
 	  	<title>Sketchy 1.0</title>
 	  	
 	  	body { font-family: "Open Sans", sans-serif; background-color: #222222; padding:2%;}
@@ -31,8 +30,10 @@
   </head>
 
   <body>
+    <!-- Maybe we need to use Ruby form helper. -->
     <form style="display:none" id="form" action="/submissions/save" method="post">
-    <textarea id="textarea"></textarea>
+    <input type="text" id="textarea">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     </form>
     
   	<center><h1>Draw something here!</h1></center><br>
@@ -73,12 +74,38 @@
            {
            	var canvas = document.getElementById("simple_sketch");
 			var dataURL = canvas.toDataURL("image/png");
-             alert('button clicked');
-             console.log(dataURL);
-             
+          
+            
+             // Get our file
+            var file= dataURLtoBlob(dataURL);
+            // Create new form data
+            var fd = new FormData();
+             // Append our Canvas image file to the form data
+            fd.append("image", file);
+            // And send it
+  $.ajax({
+     url: "/submissions/save",
+     type: "POST",
+     data: fd,
+     processData: false,
+     contentType: false,
+  });
 
-           }
-        );
+           }     );
+           
+           function dataURLtoBlob(dataURL) {
+            // Decode the dataURL    
+            var binary = atob(dataURL.split(',')[1]);
+            // Create 8-bit unsigned array
+            var array = [];
+            for(var i = 0; i < binary.length; i++) {
+                array.push(binary.charCodeAt(i));
+            }
+            // Return our Blob object
+            return new Blob([new Uint8Array(array)], {type: 'image/png'});
+            }
+    
+
 </script>
 
 </html>
