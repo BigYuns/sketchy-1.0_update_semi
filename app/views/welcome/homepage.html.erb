@@ -54,9 +54,30 @@
 			</center>
 
 			<div>
-				<center><%=button_to "Submit", welcome_submit_path, :method => "get", class: "btn btn-small btn-success"%></center>
+				<center><div id="submit" style="color:white">Submit</div></center>
+				<!-- <%=button_to "Submit", welcome_submit_path, :method => "get", class: "btn btn-small btn-success"%>  -->
 				<br>
 			</div>
 		</article>
   </body>
+
+
+<script>
+		
+        $("#submit").click(function()
+        	
+           {
+           	var canvas = document.getElementById("simple_sketch");
+			var dataURL = canvas.toDataURL("image/png");
+             alert('button clicked');
+             console.log(dataURL);
+             
+
+           }
+        );
+</script>
+
 </html>
+
+
+
