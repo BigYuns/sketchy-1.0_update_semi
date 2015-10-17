@@ -159,6 +159,7 @@ var __slice = Array.prototype.slice;
       this.context.lineCap = "round";
       this.context.beginPath();
       this.context.moveTo(action.events[0].x, action.events[0].y);
+      //this.context.quadraticCurveTo(action.events[0].x, action.events[0].y);
       _ref = action.events;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         event = _ref[_i];
@@ -186,4 +187,9 @@ var __slice = Array.prototype.slice;
   };
 
 
+
 })(jQuery);
+
+
+
+
