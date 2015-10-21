@@ -60,16 +60,42 @@
 
 		 	<center>
 		 		<canvas id="simple_sketch" width='1700' height='700'></canvas>
+        <script src="sketch.js"></script>
 				<script type="text/javascript">
 		  			$(function() {
 		    		$('#simple_sketch').sketch();
 		  			});
 				</script>
+
 			</center>
 
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Type your Username</h4>
+        </div>
+        <div class="modal-body">
+      
+          <form id="username">
+            <input type="text" name="user" id="input">
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <div id="submit">
+            <%=button_to "Submit", welcome_submit_path, :method => "get", class: "btn btn-small btn-success"%> </div>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 			<div>
-				<center><div id="submit" style="color:white">Submit</div></center>
-				<!-- <%=button_to "Submit", welcome_submit_path, :method => "get", class: "btn btn-small btn-success"%>  -->
+				<center><button type="button" class="btn btn-default" data-toggle="modal"  data-target="#myModal">
+
+          submit </button>
+        </div></center>
 				<br>
 			</div>
 		</article>
@@ -78,30 +104,39 @@
 
 <script>
 		
-        $("#submit").click(function()
-        	
-           {
-           	var canvas = document.getElementById("simple_sketch");
-			var dataURL = canvas.toDataURL("image/png");
-          
-            
+        $("#submit").click(function(){
+           var canvas = document.getElementById("simple_sketch");
+			     var dataURL = canvas.toDataURL("image/png");
+           var user = document.getElementById("input");
+           //user= String(user); 
+
+
+
+           var str= $('input').serialize(); 
+         
              // Get our file
             var file= dataURLtoBlob(dataURL);
+
             // Create new form data
             var fd = new FormData();
+
              // Append our Canvas image file to the form data
             fd.append("image", file);
+            fd.append("user", str); 
+            //alert(fd); 
             // And send it
-  $.ajax({
-     url: "/submissions/save",
-     type: "POST",
-     data: fd,
-     processData: false,
-     contentType: false,
-  });
+            $.ajax({
+               url: "/submissions/save",
+               type: "POST",
+               data: fd, 
+               processData: false,
+               contentType: false,
+            });
 
-           }     );
+           });
            
+
+
            function dataURLtoBlob(dataURL) {
             // Decode the dataURL    
             var binary = atob(dataURL.split(',')[1]);
