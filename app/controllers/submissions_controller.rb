@@ -11,7 +11,16 @@ class SubmissionsController < ApplicationController
   	  puts "user"
   	  puts params[:user]
   	
+  	  puts "title"
+  	  puts title 
+  	  puts "title type"
+  	  puts title.class
 
+  	  title = title.split('=').last
+
+  	  puts "title changed"
+  	  puts title
+  	  
   	  date = Date.today.to_s
 
 
