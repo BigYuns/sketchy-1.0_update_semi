@@ -7,23 +7,25 @@
 	  	<title>Sketchy 1.0</title>
 	  	
 	  	body { font-family: "Open Sans", sans-serif; background-color: #222222; padding:2%;}
-	    h1, h2, h3, h4 { font-family: Yellowtail; font-weight: normal; color: #F2F218; }
-		#wrapper { width: 100%; margin: 0 auto; text-align:center; }
+	    h1, h2, h3 { font-family: Yellowtail; font-weight: normal; color: #F2F218; }
+      h4 {font-weight:normal; font-family: Yellowtail; color:gray; font-size: 2em;}
+	
 	    header { text-align: center; }
 	    header h1 { font-size: 46px; text-align: center; margin: 15px 10px; }
 	    article h1 { font-size: 26px; margin: 0 0 15px; text-align: left;}
 	  	
-	  	article canvas {
-	    	width: 90%;
-	    	height: 700px;
-	    	border: 1px solid #ccc;
-	    	background-color: white; 
-	 
-    		margin-top: 0.5%;
-    		margin-bottom: 2%;
-    		margin-right: 3%;
-   			margin-left: 3%;
-	    }
+	  	.canvas { background-color:white; width:90%;}
+      .canvas #simple_sketch {
+        position:relative;
+        width:100%;        
+        border: 1px solid #ccc;
+        margin-top: 0.5%;
+      }
+
+      .canvas #tmp_canvas {
+        position:absolute;
+        cursor:crosshair;
+      }
 	    @media (max-width: 900px) {
         	header, h1 {
           	display:none;
@@ -59,14 +61,12 @@
 			</div>
 
 		 	<center>
-		 		<canvas id="simple_sketch" width='1700' height='700'></canvas>
-        <script src="sketch.js"></script>
-				<script type="text/javascript">
-		  			$(function() {
-		    		$('#simple_sketch').sketch();
-		  			});
-				</script>
-
+      <article class="canvas">
+      <div id="simple_sketch">
+		 		<canvas id="paint" width='1700' height='700'></canvas>
+       
+      </div>
+      </article>
 			</center>
 
       <div class="modal fade" id="myModal" role="dialog">
@@ -92,7 +92,7 @@
   </div>
 
 			<div>
-				<center><button type="button" class="btn btn-default" data-toggle="modal"  data-target="#myModal">
+				<center><button type="button" style="margin-top:10px" class="btn btn-default" data-toggle="modal"  data-target="#myModal" >
 
           submit </button>
         </div></center>
@@ -103,9 +103,120 @@
 
 
 <script>
+var ready;
+
+
+ready = function() {
+  
+  var canvas = document.querySelector('#paint');
+  var ctx = canvas.getContext('2d');
+  var sketch = document.querySelector('#simple_sketch');
+  var sketch_style = getComputedStyle(sketch);
+  canvas.width = parseInt(sketch_style.getPropertyValue('width'));
+  canvas.height = parseInt(sketch_style.getPropertyValue('height'));
+  
+  
+  // Creating a tmp canvas
+  var tmp_canvas = document.createElement('canvas');
+  var tmp_ctx = tmp_canvas.getContext('2d');
+  tmp_canvas.id = 'tmp_canvas';
+  tmp_canvas.width = canvas.width;
+  tmp_canvas.height = canvas.height;
+$(tmp_canvas).css({
+    "left"     : $('#paint').position().left,
+    "top"      : $('#paint').position().top,
+});
+  sketch.appendChild(tmp_canvas);
+
+  var mouse = {x: 0, y: 0};
+  var last_mouse = {x: 0, y: 0};
+  
+  // Pencil Points
+  var ppts = [];
+  
+  /* Mouse Capturing Work */
+  tmp_canvas.addEventListener('mousemove', function(e) {
+    mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
+    mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
+  }, false);
+  
+  
+  /* Drawing on Paint App */
+  tmp_ctx.lineWidth = 5;
+  tmp_ctx.lineJoin = 'round';
+  tmp_ctx.lineCap = 'round';
+  tmp_ctx.strokeStyle = 'black';
+  tmp_ctx.fillStyle = 'black';
+  
+  tmp_canvas.addEventListener('mousedown', function(e) {
+    tmp_canvas.addEventListener('mousemove', onPaint, false);
+    
+    mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
+    mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
+    
+    ppts.push({x: mouse.x, y: mouse.y});
+    
+    onPaint();
+  }, false);
+  
+  tmp_canvas.addEventListener('mouseup', function() {
+    tmp_canvas.removeEventListener('mousemove', onPaint, false);
+    
+    // Writing down to real canvas now
+    ctx.drawImage(tmp_canvas, 0, 0);
+    // Clearing tmp canvas
+    tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
+    
+    // Emptying up Pencil Points
+    ppts = [];
+  }, false);
+  
+  var onPaint = function() {
+    
+    // Saving all the points in an array
+    ppts.push({x: mouse.x, y: mouse.y});
+    
+    if (ppts.length < 3) {
+      var b = ppts[0];
+      tmp_ctx.beginPath();
+      tmp_ctx.arc(b.x, b.y, tmp_ctx.lineWidth / 2, 0, Math.PI * 2, !0);
+      tmp_ctx.fill();
+      tmp_ctx.closePath();
+      
+      return;
+    }
+    
+    // Tmp canvas is always cleared up before drawing.
+    tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
+    
+    tmp_ctx.beginPath();
+    tmp_ctx.moveTo(ppts[0].x, ppts[0].y);
+    
+    for (var i = 1; i < ppts.length - 2; i++) {
+      var c = (ppts[i].x + ppts[i + 1].x) / 2;
+      var d = (ppts[i].y + ppts[i + 1].y) / 2;
+      
+      tmp_ctx.quadraticCurveTo(ppts[i].x, ppts[i].y, c, d);
+    }
+    
+    // For the last 2 points
+    tmp_ctx.quadraticCurveTo(
+      ppts[i].x,
+      ppts[i].y,
+      ppts[i + 1].x,
+      ppts[i + 1].y
+    );
+    tmp_ctx.stroke();
+    
+  };
+  
+}();
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
 		
         $("#submit").click(function(){
-           var canvas = document.getElementById("simple_sketch");
+           var canvas = document.getElementById("paint");
 			     var dataURL = canvas.toDataURL("image/png");
            var user = document.getElementById("input");
            //user= String(user); 
