@@ -101,10 +101,8 @@
   });
            }     );
            
-           function dataURLtoBlob(dataURL) {
-            // Decode the dataURL    
+           function dataURLtoBlob(dataURL) { 
             var binary = atob(dataURL.split(',')[1]);
-            // Create 8-bit unsigned array
             var array = [];
             for(var i = 0; i < binary.length; i++) {
                 array.push(binary.charCodeAt(i));

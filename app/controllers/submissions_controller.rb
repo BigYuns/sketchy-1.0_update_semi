@@ -11,15 +11,10 @@ class SubmissionsController < ApplicationController
   	  puts "user"
   	  puts params[:user]
   	
-  	  puts "title"
-  	  puts title 
-  	  puts "title type"
-  	  puts title.class
+
 
   	  title = title.split('=').last
 
-  	  puts "title changed"
-  	  puts title
   	  
   	  date = Date.today.to_s
 
@@ -27,9 +22,11 @@ class SubmissionsController < ApplicationController
   	  #@title = params[:user]
 
   	  #@date = "date"
-  	  Dir.mkdir(date) unless File.exists?(date)
+  	  Dir.mkdir("app/assets/images/"+"&"+date) unless File.exists?("app/assets/images/"+"&"+date)
 
-      File.open("#{Rails.root}/#{date}/#{title}.png", 'wb') do |f|
+      #File.open("#{Rails.root}/public/#{title}.png", 'wb') do |f|
+      #File.open("#{Rails.root}/#{date}/#{title}.png", 'wb') do |f|
+      File.open("#{Rails.root}/app/assets/images/&#{date}/#{title}.png", 'wb') do |f|
       	f.write(params[:image].read)
 
     end

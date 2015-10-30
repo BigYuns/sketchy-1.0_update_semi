@@ -1,0 +1,23 @@
+<link href='http://fonts.googleapis.com/css?family=Yellowtail|Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'/>
+<style>
+<link href='http://fonts.googleapis.com/css?family=Yellowtail|Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'/>
+ h1, h2, h3, h4 { font-family: Yellowtail; font-weight: normal; color: #F2F218; }
+body { background: #222222;}
+ h1, h2, h3, h4 { font-family: Yellowtail; font-weight: normal; color: #F2F218; }
+ h1 { font-size: 70px; text-align: center; margin: 15px 10px; }
+</style>
+
+<body>
+	<h1>Gallery</h1>
+<div class="row">
+  <div class="col-xs-6 col-md-4" style="margin: 0 auto; float:none; ">
+	 <% @images.each do |image| %>
+	 	<center><%image = image.split('&').last%>
+	 	<%image ="&"+image%>
+	 	<a href="#" class="thumbnail">
+			<img src="<%= asset_path( image ) %>" />
+		</a></center>
+	<% end %>
+</div>
+</div>
+</body>
