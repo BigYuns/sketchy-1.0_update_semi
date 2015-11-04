@@ -52,8 +52,6 @@
 		  	<div class="tools">
 		  		<div class="buttons">
 		  			<center>
-		  			<a href="#simple_sketch" data-tool="marker"><button type="button", class="btn btn-info">Marker</button></a>
-			  		<a href="#simple_sketch" data-tool="eraser"><button type="button", class="btn btn-info">Eraser</button></a>
 			  		<a href='#simple_sketch' data-clear='true'><button id ="clear", type="button", class="btn btn-info">Clear</button></a>
 			  	</center>
 			  	   
@@ -115,7 +113,9 @@ ready = function() {
   canvas.width = parseInt(sketch_style.getPropertyValue('width'));
   canvas.height = parseInt(sketch_style.getPropertyValue('height'));
   
-  
+  document.getElementById('clear').addEventListener('click', function(){
+    ctx.clearRect(0,0, canvas.width, canvas.height); 
+  }, false); 
   // Creating a tmp canvas
   var tmp_canvas = document.createElement('canvas');
   var tmp_ctx = tmp_canvas.getContext('2d');

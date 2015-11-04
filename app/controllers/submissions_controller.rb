@@ -11,14 +11,8 @@ class SubmissionsController < ApplicationController
   	  puts "user"
   	  puts params[:user]
   	
-
-
   	  title = title.split('=').last
-
-  	  
   	  date = Date.today.to_s
-
-
   	  #@title = params[:user]
 
   	  #@date = "date"

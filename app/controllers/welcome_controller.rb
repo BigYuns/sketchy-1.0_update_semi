@@ -1,3 +1,5 @@
+require 'date'
+
 class WelcomeController < ApplicationController
   def homepage
   end
@@ -6,7 +8,8 @@ class WelcomeController < ApplicationController
   end
 
   def thumbnails
-  	@images=Dir.glob("app/assets/images/*/*.png")
+  	date =Time.now.strftime("%Y-%m-%d") 
+  	@images=Dir.glob("app/assets/images/&#{date}/*.png")
   end
 
 end
