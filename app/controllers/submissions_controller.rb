@@ -17,9 +17,6 @@ class SubmissionsController < ApplicationController
 
   	  #@date = "date"
   	  Dir.mkdir("app/assets/images/"+"&"+date) unless File.exists?("app/assets/images/"+"&"+date)
-
-      #File.open("#{Rails.root}/public/#{title}.png", 'wb') do |f|
-      #File.open("#{Rails.root}/#{date}/#{title}.png", 'wb') do |f|
       File.open("#{Rails.root}/app/assets/images/&#{date}/#{title}.png", 'wb') do |f|
       	f.write(params[:image].read)
 
