@@ -54,27 +54,21 @@
     <input type="text" id="textarea">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     </form>
-
         <center><h1>Draw something here!</h1></center><br>
                 <article class='example'>
                         <div class="tools">
                                 <div class="buttons">
                                         <center>
-                                        <!--<a href="#simple_sketch" data-tool="marker"><button type="button", class="btn btn-info">Marker</button></a>-->
                                         <a href='#simple_sketch' data-clear='true'><button id ="clear", type="button", class="btn btn-info">Clear</button></a>
                                 </center>
-
-                                </div>
-
-
+                              </div>
                         <center>
       <article class="canvas">
       <div id="simple_sketch">
-                                <canvas id="paint" width='1700' height='700'></canvas>
-
+            <canvas id="paint" width='1700' height='700'></canvas>
       </div>
       </article>
-                        </center>
+          </center>
       </div>
 
       <div class="modal fade" id="myModal" role="dialog">
@@ -95,18 +89,18 @@
             <%=button_to "Submit", welcome_submit_path, :method => "get", class: "btn btn-small btn-success"%> </div>
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>
+
       </div>
     </div>
   </div>
 
-                        <div>
-                                <center><button type="button" style="margin-top:10px" class="btn btn-default" data-toggle="modal"  data-target="#myModal" >
+  <div>
+  <center><button type="button" style="margin-top:10px" class="btn btn-default" data-toggle="modal"  data-target="#myModal" >submit </button>
+  </div></center>
 
-          submit </button>
-        </div></center>
-                                <br>
-                        </div>
-                </article>
+      <br>
+      </div>
+   </article>
   </body>
 
 
@@ -324,6 +318,5 @@ $(document).on('page:load', ready);
 </script>
 
 </html>
-
 
 
